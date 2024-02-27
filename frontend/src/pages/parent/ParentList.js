@@ -105,7 +105,7 @@ const ParentList = () => {
       <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
         {searchResults.map((parent, index) => (
           <div
-            key={parent._id}
+            key={parent.id}
             className={`rounded-lg shadow-md p-6 transition duration-300 ease-in-out transform hover:scale-105 ${
               index % 2 === 0
                 ? "bg-blue-100 hover:bg-blue-300"

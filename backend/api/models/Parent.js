@@ -17,7 +17,7 @@ module.exports = {
     isEmail: true,
   },
   student: {
-    type: 'string',
+    model: 'Student',
     required: true,
   },
   relation: {

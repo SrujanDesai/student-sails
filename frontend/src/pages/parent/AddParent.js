@@ -1,17 +1,30 @@
-import React, { useState } from "react";
-import { createParent } from "../../services/service";
+import React, { useState, useEffect } from "react";
+import { createParent, getAllStudents } from "../../services/service";
 import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 
 const AddParent = () => {
   const navigate = useNavigate();
-
+  const [students, setStudents] = useState([]);
   const [formData, setFormData] = useState({
     name: "",
     email: "",
     student: "",
-    relation:""
+    relation: "",
   });
+
+  const fetchStudents = async () => {
+    try {
+      const data = await getAllStudents();
+      setStudents(data.data);
+    } catch (error) {
+      console.error("Error fetching students:", error.message);
+    }
+  };
+
+  useEffect(() => {
+    fetchStudents();
+  }, []);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -77,7 +90,7 @@ const AddParent = () => {
                 className="mt-1 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-sm rounded-md"
               />
             </div>
-            
+
             <div>
               <label
                 htmlFor="student"
@@ -85,15 +98,25 @@ const AddParent = () => {
               >
                 Student
               </label>
-              <input
-                type="text"
-                name="student"
+              <select
                 id="student"
+                name="student"
                 value={formData.student}
                 onChange={handleChange}
                 required
-                className="mt-1 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-sm rounded-md"
-              />
+                className="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+              >
+                <option value="">Select a student</option>
+                {Array.isArray(students) ? (
+                  students.map((student) => (
+                    <option key={student.id} value={student.name}>
+                      {student.name}
+                    </option>
+                  ))
+                ) : (
+                  <option value="">No students available</option>
+                )}
+              </select>
             </div>
 
             <div>

@@ -21,7 +21,9 @@ module.exports = {
       });
     } catch (error) {
       // Return error response if creation fails
-      res.status(400).json({ success: success.SuccessFalse, message: error.message });
+      res
+        .status(400)
+        .json({ success: success.SuccessFalse, message: error.message });
     }
   },
 
@@ -30,11 +32,14 @@ module.exports = {
     try {
       // Find all parent records
       const parents = await Parent.find();
+
       // Return success response with parent data
       res.json({ success: success.SuccessTrue, data: parents });
     } catch (error) {
       // Return error response if retrieval fails
-      res.status(500).json({ success: success.SuccessFalse, message: error.message });
+      res
+        .status(500)
+        .json({ success: success.SuccessFalse, message: error.message });
     }
   },
 
@@ -45,13 +50,18 @@ module.exports = {
       const parent = await Parent.findOne({ id: req.params.id });
       // Return error response if parent not found
       if (!parent) {
-        return res.status(404).json({ success: success.SuccessFalse, message: messages.PARENT_NOT_FOUND });
+        return res.status(404).json({
+          success: success.SuccessFalse,
+          message: messages.PARENT_NOT_FOUND,
+        });
       }
       // Return success response with parent data
       res.json({ success: success.SuccessTrue, data: parent });
     } catch (error) {
       // Return error response if retrieval fails
-      res.status(500).json({ success: success.SuccessFalse, message: error.message });
+      res
+        .status(500)
+        .json({ success: success.SuccessFalse, message: error.message });
     }
   },
 
@@ -59,10 +69,15 @@ module.exports = {
   updateParentById: async function (req, res) {
     try {
       // Update parent record with provided data
-      const updatedParent = await Parent.updateOne({ id: req.params.id }).set(req.body);
+      const updatedParent = await Parent.updateOne({ id: req.params.id }).set(
+        req.body
+      );
       // Return error response if parent not found
       if (!updatedParent) {
-        return res.status(404).json({ success: success.SuccessFalse, message: messages.PARENT_NOT_FOUND });
+        return res.status(404).json({
+          success: success.SuccessFalse,
+          message: messages.PARENT_NOT_FOUND,
+        });
       }
       // Return success response with updated parent data
       res.json({
@@ -72,7 +87,9 @@ module.exports = {
       });
     } catch (error) {
       // Return error response if update fails
-      res.status(500).json({ success: success.SuccessFalse, message: error.message });
+      res
+        .status(500)
+        .json({ success: success.SuccessFalse, message: error.message });
     }
   },
 
@@ -83,7 +100,10 @@ module.exports = {
       const deletedParent = await Parent.destroyOne({ id: req.params.id });
       // Return error response if parent not found
       if (!deletedParent) {
-        return res.status(404).json({ success: success.SuccessFalse, message: messages.PARENT_NOT_FOUND });
+        return res.status(404).json({
+          success: success.SuccessFalse,
+          message: messages.PARENT_NOT_FOUND,
+        });
       }
       // Return success response if deletion is successful
       res.json({
@@ -93,7 +113,9 @@ module.exports = {
       });
     } catch (error) {
       // Return error response if deletion fails
-      res.status(500).json({ success: success.SuccessFalse, message: error.message });
+      res
+        .status(500)
+        .json({ success: success.SuccessFalse, message: error.message });
     }
   },
 };
