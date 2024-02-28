@@ -10,23 +10,27 @@
 
 module.exports.routes = {
 
-  'POST /admin/signup': 'AdminController.signup',
-  'POST /admin/login': 'AdminController.login',
+  // Routes for AdminController
+  'POST /admin/signup': 'AdminController.signup', // Route for admin signup
+  'POST /admin/login': 'AdminController.login', // Route for admin login
 
-  'POST /parent/add': 'ParentController.createParent',
-  'GET /parent': 'ParentController.getAllParents',
-  'GET /parent/:id': 'ParentController.getParentById',
-  'PUT /parent/edit/:id': 'ParentController.updateParentById',
-  'DELETE /parent/delete/:id': 'ParentController.deleteParentById',
+  // Routes for ParentController
+  'POST /parent/add': 'ParentController.createParent', // Route to add a new parent
+  'GET /parent': 'ParentController.getAllParents', // Route to get all parents
+  'GET /parent/:id': 'ParentController.getParentById', // Route to get parent by ID
+  'PUT /parent/edit/:id': 'ParentController.updateParentById', // Route to edit parent by ID
+  'DELETE /parent/delete/:id': 'ParentController.deleteParentById', // Route to delete parent by ID
 
-  'POST /student/add': { action: 'Student/createStudent', policy: 'adminAuth' },
-  'GET /student': { action: 'Student/getAllStudents', policy: 'adminAuth' },
-  'GET /student/:id': { action: 'Student/getStudentById', policy: 'adminAuth' },
-  'PUT /student/edit/:id': { action: 'Student/updateStudentById', policy: 'adminAuth' },
-  'DELETE /student/delete/:id': { action: 'Student/deleteStudentById', policy: 'adminAuth' },
+  // Routes for StudentController with 'adminAuth' policy
+  'POST /student/add': { action: 'Student/createStudent', policy: 'adminAuth' }, // Route to add a new student with admin authentication
+  'GET /student': { action: 'Student/getAllStudents', policy: 'adminAuth' }, // Route to get all students with admin authentication
+  'GET /student/:id': { action: 'Student/getStudentById', policy: 'adminAuth' }, // Route to get student by ID with admin authentication
+  'PUT /student/edit/:id': { action: 'Student/updateStudentById', policy: 'adminAuth' }, // Route to edit student by ID with admin authentication
+  'DELETE /student/delete/:id': { action: 'Student/deleteStudentById', policy: 'adminAuth' }, // Route to delete student by ID with admin authentication
 
-  'POST /student/login': 'StudentController.studentLogin',
-  'GET /student/login/:id': { action: 'Student/getStudentById', policy: 'studentAuth' },
-  'PUT /student/login/edit/:id': { action: 'Student/updateStudentById', policy: 'studentAuth' },
+  // Routes for StudentController with 'studentAuth' policy
+  'POST /student/login': 'StudentController.studentLogin', // Route for student login
+  'GET /student/login/:id': { action: 'Student/getStudentById', policy: 'studentAuth' }, // Route to get student by ID with student authentication
+  'PUT /student/login/edit/:id': { action: 'Student/updateStudentById', policy: 'studentAuth' }, // Route to edit student by ID with student authentication
 
 };
