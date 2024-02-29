@@ -5,9 +5,7 @@
  * @help        :: See https://sailsjs.com/docs/concepts/actions
  */
 
-const bcrypt = require('bcrypt');
-const jwt = require('jsonwebtoken');
-const {messages, success} = require('../../config/locales/constant');
+const { HTTP_STATUS, bcrypt, jwt } = require('../../config/constant');
 
 module.exports = {
   // Admin signup
@@ -19,9 +17,9 @@ module.exports = {
       // Check if admin with the same email exists
       const existingAdmin = await Admin.findOne({ email });
       if (existingAdmin) {
-        return res.status(400).json({
-          success: success.SuccessFalse,
-          message: messages.ALREADY_EXISTS,
+        return res.status(HTTP_STATUS.BAD_REQUEST).json({
+          success: req.i18n.__('SuccessFalse'),
+          message: req.i18n.__('ALREADY_EXISTS'),
         });
       }
 
@@ -30,17 +28,23 @@ module.exports = {
 
       // Hash the password and create a new admin
       const hashedPassword = await bcrypt.hash(password, saltRound);
-      const newAdmin = await Admin.create({ name, email, password: hashedPassword }).fetch();
+      const newAdmin = await Admin.create({
+        name,
+        email,
+        password: hashedPassword,
+      }).fetch();
 
       // Return success response with created admin data
-      res.status(201).json({
-        success: success.SuccessTrue,
-        message: messages.ADMIN_REGISTER,
+      res.status(HTTP_STATUS.CREATED).json({
+        success: req.i18n.__('SuccessTrue'),
+        message: req.i18n.__('ADMIN_REGISTER'),
         newAdmin,
       });
     } catch (error) {
       // Return error response if signup fails
-      res.status(500).json({ success: success.SuccessFalse, message: error.message });
+      res
+        .status(HTTP_STATUS.SERVER_ERROR)
+        .json({ success: req.i18n.__('SuccessFalse'), message: error.message });
     }
   },
 
@@ -53,31 +57,39 @@ module.exports = {
       const admin = await Admin.findOne({ email });
       // Return error response if admin not found
       if (!admin) {
-        return res.status(404).json({ success: success.SuccessFalse, message: messages.ADMIN_NOT_FOUND });
+        return res.status(HTTP_STATUS.NOT_FOUND).json({
+          success: req.i18n.__('SuccessFalse'),
+          message: req.i18n.__('ADMIN_NOT_FOUND'),
+        });
       }
 
       // Validate password
       const isMatch = await bcrypt.compare(password, admin.password);
       // Return error response if password is invalid
       if (!isMatch) {
-        return res.status(401).json({ success: success.SuccessFalse, message: messages.PASSWORD_VALIDATE });
+        return res.status(HTTP_STATUS.UNAUTHORIZED).json({
+          success: req.i18n.__('SuccessFalse'),
+          message: req.i18n.__('PASSWORD_VALIDATE'),
+        });
       }
 
       // Generate JWT token
       const token = jwt.sign(
-            { adminId: admin.id, role: admin.role },
-            process.env.JWT_SECRET
+        { adminId: admin.id, role: admin.role },
+        process.env.JWT_SECRET
       );
 
       // Return success response with JWT token
-      res.status(200).json({
+      res.status(HTTP_STATUS.SUCCESS).json({
         token,
-        success: success.SuccessTrue,
-        message: messages.ADMIN_LOGIN,
+        success: req.i18n.__('SuccessTrue'),
+        message: req.i18n.__('ADMIN_LOGIN'),
       });
     } catch (error) {
       // Return error response if login fails
-      res.status(500).json({ success: success.SuccessFalse, message: error.message });
+      res
+        .status(HTTP_STATUS.SERVER_ERROR)
+        .json({ success: req.i18n.__('SuccessFalse'), message: error.message });
     }
   },
 };

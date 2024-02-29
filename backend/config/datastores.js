@@ -49,6 +49,6 @@ module.exports.datastores = {
     // url: 'mysql://user:password@host:port/database',
 
     adapter: 'sails-mongo',
-    url: 'mongodb+srv://srujan:mongodb2512@cluster0.h4itok2.mongodb.net/student-management',
+    url: process.env.MONGO_URL,
   },
 };

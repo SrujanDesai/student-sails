@@ -5,7 +5,7 @@
  * @help        :: See https://sailsjs.com/docs/concepts/actions
  */
 
-const { messages, success } = require('../../config/locales/constant');
+const { HTTP_STATUS } = require('../../config/constant');
 
 module.exports = {
   // Create a new parent record
@@ -14,16 +14,16 @@ module.exports = {
       // Create a new parent record and fetch the created record
       const parent = await Parent.create(req.body).fetch();
       // Return success response with created parent data
-      res.status(201).json({
-        success: success.SuccessTrue,
+      res.status(HTTP_STATUS.CREATED).json({
+        success: req.i18n.__('SuccessTrue'),
         message: 'Parent created successfully',
         data: parent,
       });
     } catch (error) {
       // Return error response if creation fails
       res
-        .status(400)
-        .json({ success: success.SuccessFalse, message: error.message });
+        .status(HTTP_STATUS.BAD_REQUEST)
+        .json({ success: req.i18n.__('SuccessFalse'), message: error.message });
     }
   },
 
@@ -34,12 +34,12 @@ module.exports = {
       const parents = await Parent.find();
 
       // Return success response with parent data
-      res.json({ success: success.SuccessTrue, data: parents });
+      res.json({ success: req.i18n.__('SuccessTrue'), data: parents });
     } catch (error) {
       // Return error response if retrieval fails
       res
-        .status(500)
-        .json({ success: success.SuccessFalse, message: error.message });
+        .status(HTTP_STATUS.SERVER_ERROR)
+        .json({ success: req.i18n.__('SuccessFalse'), message: error.message });
     }
   },
 
@@ -50,72 +50,78 @@ module.exports = {
       const parent = await Parent.findOne({ id: req.params.id });
       // Return error response if parent not found
       if (!parent) {
-        return res.status(404).json({
-          success: success.SuccessFalse,
-          message: messages.PARENT_NOT_FOUND,
+        return res.status(HTTP_STATUS.NOT_FOUND).json({
+          success: req.i18n.__('SuccessFalse'),
+          message: req.i18n.__('PARENT_NOT_FOUND'),
         });
       }
       // Return success response with parent data
-      res.json({ success: success.SuccessTrue, data: parent });
+      res.json({ success: req.i18n.__('SuccessTrue'), data: parent });
     } catch (error) {
       // Return error response if retrieval fails
       res
-        .status(500)
-        .json({ success: success.SuccessFalse, message: error.message });
+        .status(HTTP_STATUS.SERVER_ERROR)
+        .json({ success: req.i18n.__('SuccessFalse'), message: error.message });
     }
   },
 
   // Update a parent record by ID
   updateParentById: async function (req, res) {
     try {
+      // Extract parent ID from request parameters
+      const parentId = req.params.id;
+      const parent = await Parent.findOne({ id: parentId });
+
+      // Return error response if parent not found
+      if (!parent) {
+        return res.status(HTTP_STATUS.NOT_FOUND).json({ success: req.i18n.__('SuccessFalse'), message: req.i18n.__('PARENT_NOT_FOUND') });
+      }
+
       // Update parent record with provided data
-      const updatedParent = await Parent.updateOne({ id: req.params.id }).set(
+      const updatedParent = await Parent.updateOne({ id: parentId }).set(
         req.body
       );
-      // Return error response if parent not found
-      if (!updatedParent) {
-        return res.status(404).json({
-          success: success.SuccessFalse,
-          message: messages.PARENT_NOT_FOUND,
-        });
-      }
+
       // Return success response with updated parent data
       res.json({
-        success: success.SuccessTrue,
+        success: req.i18n.__('SuccessTrue'),
         message: 'Parent updated successfully',
         data: updatedParent,
       });
     } catch (error) {
       // Return error response if update fails
       res
-        .status(500)
-        .json({ success: success.SuccessFalse, message: error.message });
+        .status(HTTP_STATUS.SERVER_ERROR)
+        .json({ success: req.i18n.__('SuccessFalse'), message: error.message });
     }
   },
 
   // Delete a parent record by ID
   deleteParentById: async function (req, res) {
     try {
-      // Delete parent record by ID
-      const deletedParent = await Parent.destroyOne({ id: req.params.id });
+      // Extract parent ID from request parameters
+      const parentId = req.params.id;
+      const parent = await Parent.findOne({ id: parentId });
+
       // Return error response if parent not found
-      if (!deletedParent) {
-        return res.status(404).json({
-          success: success.SuccessFalse,
-          message: messages.PARENT_NOT_FOUND,
-        });
+      if (!parent) {
+        return res.status(HTTP_STATUS.NOT_FOUND).json({ success: req.i18n.__('SuccessFalse'), message: req.i18n.__('PARENT_NOT_FOUND') });
       }
+
+      // Delete parent record by ID
+      const deletedParent = await Parent.destroyOne({ id: parentId });
+
       // Return success response if deletion is successful
       res.json({
-        success: success.SuccessTrue,
+        success: req.i18n.__('SuccessTrue'),
         message: 'Parent deleted successfully',
         data: deletedParent,
       });
     } catch (error) {
       // Return error response if deletion fails
       res
-        .status(500)
-        .json({ success: success.SuccessFalse, message: error.message });
+        .status(HTTP_STATUS.SERVER_ERROR)
+        .json({ success: req.i18n.__('SuccessFalse'), message: error.message });
     }
   },
 };

@@ -1,5 +1,4 @@
-const jwt = require('jsonwebtoken');
-const { messages, success } = require('../../config/locales/constant');
+const { HTTP_STATUS, jwt } = require('../../config/constant');
 
 module.exports = async function(req, res, proceed) {
   try {
@@ -8,7 +7,7 @@ module.exports = async function(req, res, proceed) {
 
     // Check if token exists
     if (!token) {
-      return res.status(401).json({ success: success.SuccessFalse, message: messages.ACCESS_DENIED });
+      return res.status(HTTP_STATUS.UNAUTHORIZED).json({ success: req.i18n.__('SuccessFalse'), message: req.i18n.__('ACCESS_DENIED') });
     }
 
     // Verify the token
@@ -19,7 +18,7 @@ module.exports = async function(req, res, proceed) {
 
     // Return error response if admin not found
     if (!admin) {
-      return res.status(404).json({ success: success.SuccessFalse, message: messages.ADMIN_NOT_FOUND });
+      return res.status(HTTP_STATUS.NOT_FOUND).json({ success: req.i18n.__('SuccessFalse'), message: req.i18n.__('ADMIN_NOT_FOUND') });
     }
 
     // Attach the admin object and role to the request object for further use
@@ -35,11 +34,11 @@ module.exports = async function(req, res, proceed) {
       return proceed();
     } else {
       // Return error response if admin ID does not match
-      return res.status(403).json({ success: success.SuccessFalse, message: messages.NOT_AUTHORIZED });
+      return res.status(HTTP_STATUS.FORBIDDEN).json({ success: req.i18n.__('SuccessFalse'), message: req.i18n.__('NOT_AUTHORIZED') });
     }
 
   } catch (error) {
     // Return error response if token verification fails
-    return res.status(401).json({ success: success.SuccessFalse, message: messages.INVALID_TOKEN });
+    return res.status(HTTP_STATUS.UNAUTHORIZED).json({ success: req.i18n.__('SuccessFalse'), message: req.i18n.__('INVALID_TOKEN') });
   }
 };

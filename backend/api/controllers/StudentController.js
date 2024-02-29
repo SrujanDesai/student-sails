@@ -5,9 +5,7 @@
  * @help        :: See https://sailsjs.com/docs/concepts/actions
  */
 
-const bcrypt = require('bcrypt');
-const jwt = require('jsonwebtoken');
-const { messages, success } = require('../../config/locales/constant');
+const { HTTP_STATUS, bcrypt, jwt } = require('../../config/constant');
 
 module.exports = {
   // Create a new student record
@@ -29,15 +27,15 @@ module.exports = {
       }).fetch();
 
       // Return success response with created student data
-      res.status(201).json({
-        success: success.SuccessTrue,
+      res.status(HTTP_STATUS.CREATED).json({
+        success: req.i18n.__('SuccessTrue'),
         message: 'Student created successfully',
         data: newStudent,
       });
     } catch (error) {
       // Return error response if creation fails
       console.error('Error creating student:', error);
-      res.status(500).json({ success: success.SuccessFalse, error: 'Internal Server Error' });
+      res.status(HTTP_STATUS.SERVER_ERROR).json({ success: req.i18n.__('SuccessFalse'), error: 'Internal Server Error' });
     }
   },
 
@@ -47,10 +45,10 @@ module.exports = {
       // Find all students
       const students = await Student.find();
       // Return success response with student data
-      res.status(200).json({ success: success.SuccessTrue, data: students });
+      res.status(HTTP_STATUS.SUCCESS).json({ success: req.i18n.__('SuccessTrue'), data: students });
     } catch (error) {
       // Return error response if retrieval fails
-      res.status(500).json({ success: success.SuccessFalse, message: error.message });
+      res.status(HTTP_STATUS.SERVER_ERROR).json({ success: req.i18n.__('SuccessFalse'), message: error.message });
     }
   },
 
@@ -62,13 +60,13 @@ module.exports = {
 
       // Return error response if student not found
       if (!student) {
-        return res.status(404).json({ success: success.SuccessFalse, message: messages.STUDENT_NOT_FOUND });
+        return res.status(HTTP_STATUS.NOT_FOUND).json({ success: req.i18n.__('SuccessFalse'), message: req.i18n.__('STUDENT_NOT_FOUND') });
       }
       // Return success response with student data
-      res.json({ success: success.SuccessTrue, data: student });
+      res.json({ success: req.i18n.__('SuccessTrue'), data: student });
     } catch (error) {
       // Return error response if retrieval fails
-      res.status(500).json({ success: success.SuccessFalse, message: error.message });
+      res.status(HTTP_STATUS.SERVER_ERROR).json({ success: req.i18n.__('SuccessFalse'), message: error.message });
     }
   },
 
@@ -82,21 +80,21 @@ module.exports = {
 
       // Return error response if student not found
       if (!student) {
-        return res.status(404).json({ success: success.SuccessFalse, message: messages.STUDENT_NOT_FOUND });
+        return res.status(HTTP_STATUS.NOT_FOUND).json({ success: req.i18n.__('SuccessFalse'), message: req.i18n.__('STUDENT_NOT_FOUND') });
       }
 
       // Update student record with provided data
       const updatedStudent = await Student.updateOne({ id: studentId }).set({ name, email, password, std, school });
 
       // Return success response with updated student data
-      res.status(200).json({
-        success: success.SuccessTrue,
+      res.status(HTTP_STATUS.SUCCESS).json({
+        success: req.i18n.__('SuccessTrue'),
         message: 'Student updated successfully',
         data: updatedStudent,
       });
     } catch (error) {
       // Return error response if update fails
-      res.status(500).json({ success: success.SuccessFalse, message: error.message });
+      res.status(HTTP_STATUS.SERVER_ERROR).json({ success: req.i18n.__('SuccessFalse'), message: error.message });
     }
   },
 
@@ -110,21 +108,21 @@ module.exports = {
 
       // Return error response if student not found
       if (!student) {
-        return res.status(404).json({ success: success.SuccessFalse, message: messages.STUDENT_NOT_FOUND });
+        return res.status(HTTP_STATUS.NOT_FOUND).json({ success: req.i18n.__('SuccessFalse'), message: req.i18n.__('STUDENT_NOT_FOUND') });
       }
 
       // Delete student record by ID
       const deletedStudent = await Student.destroyOne({ id: studentId });
 
       // Return success response if deletion is successful
-      res.status(200).json({
-        success: success.SuccessTrue,
+      res.status(HTTP_STATUS.SUCCESS).json({
+        success: req.i18n.__('SuccessTrue'),
         message: 'Student deleted successfully',
         data: deletedStudent,
       });
     } catch (error) {
       // Return error response if deletion fails
-      res.status(500).json({ message: error.message });
+      res.status(HTTP_STATUS.SERVER_ERROR).json({ message: error.message });
     }
   },
 
@@ -138,14 +136,14 @@ module.exports = {
 
       // Return error response if student not found
       if (!student) {
-        return res.status(404).json({ success: success.SuccessFalse, message: messages.STUDENT_NOT_FOUND });
+        return res.status(HTTP_STATUS.NOT_FOUND).json({ success: req.i18n.__('SuccessFalse'), message: req.i18n.__('STUDENT_NOT_FOUND') });
       }
 
       // Validate password
       const isMatch = await bcrypt.compare(password, student.password);
       // Return error response if password is invalid
       if (!isMatch) {
-        return res.status(401).json({ success: success.SuccessFalse, message: messages.PASSWORD_VALIDATE });
+        return res.status(HTTP_STATUS.UNAUTHORIZED).json({ success: req.i18n.__('SuccessFalse'), message: req.i18n.__('PASSWORD_VALIDATE') });
       }
 
       // Generate JWT token
@@ -155,10 +153,10 @@ module.exports = {
       );
 
       // Return success response with JWT token
-      res.status(200).json({ success: success.SuccessTrue, token, message: messages.STUDENT_LOGIN });
+      res.status(HTTP_STATUS.SUCCESS).json({ success: req.i18n.__('SuccessTrue'), token, message: req.i18n.__('STUDENT_LOGIN') });
     } catch (error) {
       // Return error response if login fails
-      res.status(500).json({ success: success.SuccessFalse, message: error.message });
+      res.status(HTTP_STATUS.SERVER_ERROR).json({ success: req.i18n.__('SuccessFalse'), message: error.message });
     }
   },
 };
