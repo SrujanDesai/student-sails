@@ -29,12 +29,16 @@ module.exports = {
 
   // Retrieve all parent records
   getAllParents: async function (req, res) {
+    const page = req.query.page || 1; // Get the page number from the request query parameters, default to 1 if not provided
+    const perPage = req.query.perPage || 10; // Get the number of items per page from the request query parameters, default to 10 if not provided
+    const skip = (page - 1) * perPage; // Calculate the number of items to skip based on the page number and items per page
+    const limit = perPage; // Set the limit to the number of items per page
     try {
-      // Find all parent records
-      const parents = await Parent.find();
+      // Find all parent records with pagination
+      const parents = await Parent.find().limit(limit).skip(skip);
 
       // Return success response with parent data
-      res.json({ success: req.i18n.__('SuccessTrue'), data: parents });
+      res.status(HTTP_STATUS.SUCCESS).json({ success: req.i18n.__('SuccessTrue'), data: parents });
     } catch (error) {
       // Return error response if retrieval fails
       res
@@ -42,6 +46,7 @@ module.exports = {
         .json({ success: req.i18n.__('SuccessFalse'), message: error.message });
     }
   },
+
 
   // Retrieve a specific parent record by ID
   getParentById: async function (req, res) {

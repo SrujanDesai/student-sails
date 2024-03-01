@@ -41,9 +41,13 @@ module.exports = {
 
   // Retrieve all student records
   getAllStudents: async function (req, res) {
+    const page = req.query.page || 1; // Get the page number from the request query parameters, default to 1 if not provided
+    const perPage = req.query.perPage || 10; // Get the number of items per page from the request query parameters, default to 10 if not provided
+    const skip = (page - 1) * perPage; // Calculate the number of items to skip based on the page number and items per page
+    const limit = perPage; // Set the limit to the number of items per page
     try {
-      // Find all students
-      const students = await Student.find();
+      // Find all students with pagination
+      const students = await Student.find().limit(limit).skip(skip);
       // Return success response with student data
       res.status(HTTP_STATUS.SUCCESS).json({ success: req.i18n.__('SuccessTrue'), data: students });
     } catch (error) {
