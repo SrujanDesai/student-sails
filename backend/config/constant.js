@@ -1,3 +1,6 @@
+const jwt = require('jsonwebtoken');
+const bcrypt = require('bcrypt');
+
 module.exports = {
   HTTP_STATUS: {
     SUCCESS: 200,
@@ -8,6 +11,7 @@ module.exports = {
     SERVER_ERROR: 500,
     FORBIDDEN: 403
   },
-  bcrypt: require('bcrypt'),
-  jwt: require('jsonwebtoken')
+  jwt,
+  bcrypt,
 };
+

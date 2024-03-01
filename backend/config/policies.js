@@ -12,4 +12,7 @@ module.exports.policies = {
   ParentController: {
     '*': 'adminAuth' // Apply 'adminAuth' policy to all actions of ParentController
   },
+  StudentController:{
+    '*': [ 'adminAuth' ,'studentAuth']
+  }
 };
