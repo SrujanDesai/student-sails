@@ -32,7 +32,7 @@ const StudentLogin = () => {
       localStorage.setItem("token", response.token);
 
       navigate("/studentprofile");
-      // window.location.reload();
+      window.location.reload();
     } catch (error) {
       toast.error(`Login failed: ${error.message}`);
     }

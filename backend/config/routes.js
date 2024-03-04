@@ -22,13 +22,13 @@ module.exports.routes = {
   'DELETE /parent/delete/:id': 'ParentController.deleteParentById', // Route to delete parent by ID
 
   // Routes for StudentController
-  'POST /student/add': 'StudentController.createStudent',
-  'GET /student': 'StudentController.getAllStudents',
-  'GET /student/:id': 'StudentController.getStudentById',
-  'PUT /student/edit/:id': 'StudentController.updateStudentById',
-  'DELETE /student/delete/:id': 'StudentController.deleteStudentById',
+  'POST /student/add': 'StudentController.createStudent', // Route to add a new student
+  'GET /student': 'StudentController.getAllStudents', // Route to get all students
+  'GET /student/:id': 'StudentController.getStudentById', // Route to get student by ID
+  'PUT /student/edit/:id': 'StudentController.updateStudentById', // Route to edit student by ID
+  'DELETE /student/delete/:id': 'StudentController.deleteStudentById', // Route to delete student by ID
 
-  'POST /student/login': 'StudentController.studentLogin',
-  'GET /student/login/:id': 'StudentController.getStudentById',
-  'PUT /student/login/edit/:id': 'StudentController.updateStudentById'
+  'POST /student/login': 'StudentController.studentLogin', // Route for student login
+  'GET /student/login/:id': 'StudentController.getStudent', // Route to get student by ID after student login
+  'PUT /student/login/edit/:id': 'StudentController.updateStudent' // Route to edit student by ID after student login
 };

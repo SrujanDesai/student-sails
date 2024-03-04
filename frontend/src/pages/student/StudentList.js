@@ -29,7 +29,7 @@ const StudentList = () => {
       student.name.toLowerCase().includes(searchTerm.toLowerCase())
     );
     setSearchResults(results);
-  }, [searchTerm, students]);
+  }, [searchTerm,students]);
 
   const fetchStudents = async () => {
     try {
@@ -79,7 +79,7 @@ const StudentList = () => {
 
   useEffect(() => {
     fetchStudents();
-  }, [students]);
+  }, []);
 
   return (
     <div className="container mx-auto">

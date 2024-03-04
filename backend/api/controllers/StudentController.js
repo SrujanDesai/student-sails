@@ -163,4 +163,48 @@ module.exports = {
       res.status(HTTP_STATUS.SERVER_ERROR).json({ success: req.i18n.__('SuccessFalse'), message: error.message });
     }
   },
+
+  getStudent: async function (req, res) {
+    try {
+      // Find student by ID
+      const student = await Student.findOne({ id: req.params.id });
+
+      // Return error response if student not found
+      if (!student) {
+        return res.status(HTTP_STATUS.NOT_FOUND).json({ success: req.i18n.__('SuccessFalse'), message: req.i18n.__('STUDENT_NOT_FOUND') });
+      }
+      // Return success response with student data
+      res.json({ success: req.i18n.__('SuccessTrue'), data: student });
+    } catch (error) {
+      // Return error response if retrieval fails
+      res.status(HTTP_STATUS.SERVER_ERROR).json({ success: req.i18n.__('SuccessFalse'), message: error.message });
+    }
+  },
+
+  updateStudent: async function (req, res) {
+    try {
+      const { name, email, password, std, school } = req.body;
+      // Extract student ID from request parameters
+      const studentId = req.params.id;
+      const student = await Student.findOne({ id: studentId });
+
+      // Return error response if student not found
+      if (!student) {
+        return res.status(HTTP_STATUS.NOT_FOUND).json({ success: req.i18n.__('SuccessFalse'), message: req.i18n.__('STUDENT_NOT_FOUND') });
+      }
+
+      // Update student record with provided data
+      const updatedStudent = await Student.updateOne({ id: studentId }).set({ name, email, password, std, school });
+
+      // Return success response with updated student data
+      res.status(HTTP_STATUS.SUCCESS).json({
+        success: req.i18n.__('SuccessTrue'),
+        message: 'Student updated successfully',
+        data: updatedStudent,
+      });
+    } catch (error) {
+      // Return error response if update fails
+      res.status(HTTP_STATUS.SERVER_ERROR).json({ success: req.i18n.__('SuccessFalse'), message: error.message });
+    }
+  },
 };
