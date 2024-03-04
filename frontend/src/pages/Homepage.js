@@ -6,11 +6,11 @@ const Homepage = () => {
   return (
     <div className="flex justify-center items-center h-screen">
       <div className="flex flex-col md:flex-row-reverse items-center md:items-start w-full max-w-screen-lg">
-        <div className="md:w-1/2 md:order-2 mb-8 md:mb-0">
+        <div className="md:w-1/2 md:order-2 md:mb-0 m-2.5">
           <img src={Home} alt="home" className="w-full" />
         </div>
-        <div className="md:w-1/2 md:order-1">
-          <div className="bg-white p-8 rounded-lg shadow-md">
+        <div className="md:w-1/2 md:order-1 ">
+          <div className="bg-white lg:p-8 md:ml-6 rounded-lg shadow-xl hover:shadow-2xl ">
             <h1 className="text-3xl font-bold text-center mb-4">
               Welcome to <br /> Student Management <br /> System
             </h1>
