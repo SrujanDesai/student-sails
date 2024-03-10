@@ -14,10 +14,14 @@
     "sails": "^1.5.9",
     "sails-hook-orm": "^4.0.0",
     "sails-hook-sockets": "^3.0.0",
-    "sails-mongo": "^2.1.0"
+    "sails-mongo": "^2.1.0",
+    "save-dev": "^0.0.1-security"
   },
   "devDependencies": {
-    "eslint": "5.16.0"
+    "chai": "^5.1.0",
+    "eslint": "5.16.0",
+    "mocha": "^10.3.0",
+    "supertest": "^6.3.4"
   },
   "scripts": {
     "start": "NODE_ENV=production node app.js",
