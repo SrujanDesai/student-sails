@@ -14,7 +14,7 @@ module.exports = {
       // Create a new parent record and fetch the created record
       const parent = await Parent.create(req.body).fetch();
       // Return success response with created parent data
-      res.status(HTTP_STATUS.CREATED).json({
+      res.status(HTTP_STATUS.SUCCESS).json({
         success: req.i18n.__('SuccessTrue'),
         message: 'Parent created successfully',
         data: parent,

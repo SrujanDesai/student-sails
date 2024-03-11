@@ -6,23 +6,25 @@
  */
 
 module.exports = {
-  name: {
-    type: 'string',
-    required: true,
-  },
-  email: {
-    type: 'string',
-    required: true,
-    unique: true,
-    isEmail: true,
-  },
-  student: {
-    model: 'Student',
-    required: true,
-  },
-  relation: {
-    type: 'string',
-    required: true,
-    enum: ['Father', 'Mother', 'Guardian'],
+  attributes: {
+    name: {
+      type: 'string',
+      required: true,
+    },
+    email: {
+      type: 'string',
+      required: true,
+      unique: true,
+      isEmail: true,
+    },
+    student: {
+      model: 'student',
+      required: true,
+    },
+    relation: {
+      type: 'string',
+      required: true,
+      enum: ['Father', 'Mother', 'Guardian'],
+    },
   },
 };

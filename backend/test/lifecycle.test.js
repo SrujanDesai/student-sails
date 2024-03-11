@@ -32,5 +32,4 @@ after((done) => {
   // (e.g. you might want to destroy the records you created above)
 
   sails.lower(done);
-
 });

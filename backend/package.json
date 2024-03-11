@@ -10,6 +10,7 @@
     "cors": "^2.8.5",
     "dotenv": "^16.4.5",
     "jsonwebtoken": "^9.0.2",
+    "node": "^21.7.1",
     "nodemon": "^3.1.0",
     "sails": "^1.5.9",
     "sails-hook-orm": "^4.0.0",
@@ -18,14 +19,14 @@
     "save-dev": "^0.0.1-security"
   },
   "devDependencies": {
-    "chai": "^5.1.0",
+    "chai": "^4.2.0",
     "eslint": "5.16.0",
     "mocha": "^10.3.0",
     "supertest": "^6.3.4"
   },
   "scripts": {
     "start": "NODE_ENV=production node app.js",
-    "test": "npm run lint && npm run custom-tests && echo 'Done.'",
+    "test": "node ./node_modules/mocha/bin/mocha test/lifecycle.test.js test/integration/**/*.test.js",
     "lint": "./node_modules/eslint/bin/eslint.js . --max-warnings=0 --report-unused-disable-directives && echo '✔  Your .js files look good.'",
     "custom-tests": "echo \"(No other custom tests yet.)\" && echo"
   },

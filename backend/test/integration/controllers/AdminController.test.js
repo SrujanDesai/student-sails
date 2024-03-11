@@ -28,3 +28,7 @@ describe('Testing Admin Controller', () => {
       });
   });
 });
+
+module.exports = {
+  getText: () => text
+};

@@ -6,27 +6,29 @@
  */
 
 module.exports = {
-  name: {
-    type: 'string',
-    required: true,
+  attributes: {
+    name: {
+      type: 'string',
+      required: true,
+    },
+    email: {
+      type: 'string',
+      required: true,
+      unique: true,
+      isEmail: true,
+    },
+    password: {
+      type: 'string',
+      required: true,
+      minLength: 6,
+    },
+    std: {
+      type: 'string',
+      required: true,
+    },
+    school:{
+      type: 'string',
+      required: true,
+    }
   },
-  email: {
-    type: 'string',
-    required: true,
-    unique: true,
-    isEmail: true,
-  },
-  password: {
-    type: 'string',
-    required: true,
-    minLength: 6,
-  },
-  std: {
-    type: 'string',
-    required: true,
-  },
-  school:{
-    type: 'string',
-    required: true,
-  }
 };

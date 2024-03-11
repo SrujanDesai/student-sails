@@ -27,7 +27,7 @@ module.exports = {
       }).fetch();
 
       // Return success response with created student data
-      res.status(HTTP_STATUS.CREATED).json({
+      res.status(HTTP_STATUS.SUCCESS).json({
         success: req.i18n.__('SuccessTrue'),
         message: 'Student created successfully',
         data: newStudent,
